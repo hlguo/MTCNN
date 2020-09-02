@@ -16,7 +16,7 @@ cv::Mat drawDetection(const cv::Mat &img, std::vector<Bbox> &box)
 
         for (int j = 0; j < 5; j = j + 1)
         {
-            cv::circle(show, cvPoint(box[i].ppoint[j], box[i].ppoint[j + 5]), 2, CV_RGB(0, 255, 0), CV_FILLED);
+            cv::circle(show, cv::Point(box[i].ppoint[j], box[i].ppoint[j + 5]), 2, CV_RGB(0, 255, 0));
         }
     }
     for (vector<cv::Rect>::iterator it = bbox.begin(); it != bbox.end(); it++) {
@@ -50,11 +50,10 @@ void test_camera(MTCNN &mtcnn)
     return;
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv){
 	MTCNN mtcnn;
 	mtcnn.init("../model/ncnn");
-	mtcnn.SetMinFace(100);
+	mtcnn.SetMinFace(160);
     test_camera(mtcnn);
     return 0;
 }

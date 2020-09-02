@@ -1,7 +1,8 @@
 #include"pBox.h"
 
 void freepBox(struct pBox *pbox){
-	if(pbox->pdata==NULL)cout<<"pbox is NULL!"<<endl;
+	if(pbox->pdata==NULL)
+		cout<<"pbox is NULL!"<<endl;
 	else 
 		free(pbox->pdata);
 	pbox->pdata = NULL;
@@ -9,7 +10,8 @@ void freepBox(struct pBox *pbox){
 }
 
 void freepRelu(struct pRelu *prelu){
-	if(prelu->pdata==NULL)cout<<"prelu is NULL!"<<endl;
+	if(prelu->pdata==NULL)
+		cout<<"prelu is NULL!"<<endl;
 	else 
 		free(prelu->pdata);
 	prelu->pdata = NULL;
@@ -17,7 +19,8 @@ void freepRelu(struct pRelu *prelu){
 }
 
 void freeWeight(struct Weight *weight){
-	if(weight->pdata==NULL)cout<<"weight is NULL!"<<endl;
+	if(weight->pdata==NULL)
+		cout<<"weight is NULL!"<<endl;
 	else 
 		free(weight->pdata);
 	weight->pdata = NULL;

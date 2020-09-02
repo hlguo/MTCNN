@@ -17,36 +17,43 @@ int mtcnnDetect(cv::Mat &image)
 	return 0;
 }
 
-int testimage(const string imgpath = "4.jpg")
-{
-	Mat image = cv::imread(imgpath);
+int testimage(const string imgpath = "4.jpg"){
+	cv::Mat image = cv::imread(imgpath);
 	mtcnnDetect(image);
-    imwrite("result.jpg",image);
+	cv::imwrite("result.jpg",image);
 	return 0;
 }
 
-int testcamera(int device=0)
-{
-	Mat image;
-	VideoCapture cap(device);
-	if (!cap.isOpened())
-		cout << "fail to open!" << endl;
-	while (1){
+int testcamera(int index=0){
+	cv::Mat image;
+	cv::VideoCapture cap(index);
+	cap.set(3,640);
+	cap.set(4,480);
+	if (!cap.isOpened()) {
+		cout << "fail to open camera " << index << endl;
+		return -1;
+	}
+	while (cap.isOpened()){
 		cap >> image;
 		if (!image.data)
 			break;
+		if (image.cols!=640)
+			cv::resize(image,image,cv::Size(640,480));
 		mtcnnDetect(image);
-		imshow("mtcnn", image);
-		if (waitKey(1) >= 0) break;
+		cv::imshow("mtcnn", image);
+		cv::waitKey(1);
 	}
-    waitKey(0);
+    cv::waitKey();
     image.release();
     return 0;
 }
 
-int main()
-{
-//	testimage();
-	testcamera();
+int main(int argc, char*argv[]){
+	if (argc > 1) {
+		testimage(argv[1]);
+	}
+	if (0 != testcamera()) {
+		testimage();
+	}
 	return 0;
 }

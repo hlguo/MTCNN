@@ -1,6 +1,7 @@
 #pragma once
 #include "string"
 #include "opencv2/opencv.hpp"
+#include "opencv2/dnn/dnn.hpp"
 
 typedef struct FaceBox {
 	float xmin;

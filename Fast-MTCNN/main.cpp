@@ -85,7 +85,7 @@ cv::Vec3f PoseEstimator::estimateHeadPose(cv::Mat &img, const std::vector<cv::Po
 	cv::Mat rvec, tvec;
 	int max_d = (img.rows + img.cols) / 2;
 	cv::Mat camMatrix = (Mat_<double>(3, 3) << max_d, 0, img.cols / 2.0, 0, max_d, img.rows / 2.0, 0, 0, 1.0);
-	solvePnP(modelPoints, imagePoints, camMatrix, cv::Mat(), rvec, tvec, false, CV_EPNP);
+	solvePnP(modelPoints, imagePoints, camMatrix, cv::Mat(), rvec, tvec, false, 1);
 	cv::Mat rotM;
 	cv::Rodrigues(rvec, rotM);
 	std::vector<cv::Point3f> axises;

@@ -31,7 +31,8 @@ void image2MatrixInit(Mat &image, struct pBox *pbox){
     pbox->width = image.cols;
     
     pbox->pdata = (mydataFmt *)malloc(pbox->channel*pbox->height*pbox->width*sizeof(mydataFmt));
-    if(pbox->pdata==NULL)cout<<"the image2MatrixInit failed!!"<<endl;
+    if(pbox->pdata==NULL)
+        cout<<"the image2MatrixInit failed!!"<<endl;
     memset(pbox->pdata, 0, pbox->channel*pbox->height*pbox->width*sizeof(mydataFmt));
 }
 void image2Matrix(const Mat &image, const struct pBox *pbox){
@@ -45,7 +46,7 @@ void image2Matrix(const Mat &image, const struct pBox *pbox){
     mydataFmt *p = pbox->pdata;
     for (int rowI = 0; rowI < image.rows; rowI++){
         for (int colK = 0; colK < image.cols; colK++){
-            *p = (image.at<Vec3b>(rowI, colK)[0] - 127.5)*0.0078125;//opencvµÄÍ¨µÀÅÅÐòÊÇRGB
+            *p = (image.at<Vec3b>(rowI, colK)[0] - 127.5)*0.0078125;
             *(p + image.rows*image.cols) = (image.at<Vec3b>(rowI, colK)[1] - 127.5)*0.0078125;
             *(p + 2*image.rows*image.cols) = (image.at<Vec3b>(rowI, colK)[2] - 127.5)*0.0078125;
             p++;
@@ -62,7 +63,8 @@ void featurePadInit(const pBox *pbox, pBox *outpBox, const int pad){
     outpBox->width = pbox->width + 2 * pad;
     long RowByteNum= outpBox->width*sizeof(mydataFmt);
     outpBox->pdata = (mydataFmt *)malloc(outpBox->channel*outpBox->height*RowByteNum);
-    if(outpBox->pdata==NULL)cout<<"the featurePadInit is failed!!"<<endl;
+    if(outpBox->pdata==NULL)
+        cout<<"the featurePadInit is failed!!"<<endl;
     memset(outpBox->pdata, 0, outpBox->channel*outpBox->height*RowByteNum);
 }
 void featurePad(const pBox *pbox, const pBox *outpBox, const int pad){
@@ -85,9 +87,9 @@ void feature2MatrixInit(const pBox *pbox, pBox *Matrix, const Weight *weight){
     
     int kernelSize = weight->kernelSize;
     int stride = weight->stride;
-    int w_out = (pbox->width - kernelSize) / stride + 1;//Õâ¸ö¹«Ê½Ò»¶¨Òª¸ãÇå³þ£¬¿ÉÒÔ×Ô¼ºÈ¥»­¸ö¾ØÕó¿´¿´
+    int w_out = (pbox->width - kernelSize) / stride + 1;
     int h_out = (pbox->height - kernelSize) / stride + 1;
-    Matrix->width = pbox->channel*kernelSize*kernelSize;//Î´×ªÖÃÇ°µÄ¿í¶È
+    Matrix->width = pbox->channel*kernelSize*kernelSize;
     Matrix->height = w_out*h_out;
     Matrix->channel = 1;
     Matrix->pdata = (mydataFmt *)malloc(Matrix->width*Matrix->height*sizeof(mydataFmt));
@@ -101,7 +103,7 @@ void feature2Matrix(const pBox *pbox, pBox *Matrix, const Weight *weight){
     }
     int kernelSize = weight->kernelSize;
     int stride = weight->stride;
-    int w_out = (pbox->width - kernelSize) / stride + 1;//Õâ¸ö¹«Ê½Ò»¶¨Òª¸ãÇå³þ£¬¿ÉÒÔ×Ô¼ºÈ¥»­¸ö¾ØÕó¿´¿´
+    int w_out = (pbox->width - kernelSize) / stride + 1;
     int h_out = (pbox->height - kernelSize) / stride + 1;
     
     mydataFmt *p = Matrix->pdata;
@@ -127,7 +129,8 @@ void convolutionInit(const Weight *weight, const pBox *pbox, pBox *outpBox, cons
     outpBox->width = (pbox->width - weight->kernelSize) / weight->stride + 1;
     outpBox->height = (pbox->height - weight->kernelSize) / weight->stride + 1;
     outpBox->pdata = (mydataFmt *)malloc(weight->selfChannel*matrix->height*sizeof(mydataFmt));
-    if(outpBox->pdata==NULL)cout<<"the convolutionInit is failed!!"<<endl;
+    if(outpBox->pdata==NULL)
+        cout<<"the convolutionInit is failed!!"<<endl;
     memset(outpBox->pdata , 0, weight->selfChannel*matrix->height*sizeof(mydataFmt));
 }
 void convolution(const Weight *weight, const pBox *pbox, pBox *outpBox, const struct pBox *matrix){
@@ -159,7 +162,8 @@ void maxPoolingInit(const pBox *pbox, pBox *Matrix, int kernelSize, int stride){
     Matrix->height = ceil((float)(pbox->height - kernelSize) / stride + 1);
     Matrix->channel = pbox->channel;
     Matrix->pdata = (mydataFmt *)malloc(Matrix->channel*Matrix->width*Matrix->height*sizeof(mydataFmt));
-    if(Matrix->pdata==NULL)cout<<"the maxPoolingInit is failed!!"<<endl;
+    if(Matrix->pdata==NULL)
+        cout<<"the maxPoolingInit is failed!!"<<endl;
     memset(Matrix->pdata, 0, Matrix->channel*Matrix->width*Matrix->height*sizeof(mydataFmt));
 }
 void maxPooling(const pBox *pbox, pBox *Matrix, int kernelSize, int stride){
@@ -327,11 +331,13 @@ long initConvAndFc(struct Weight *weight, int schannel, int lchannel, int kersiz
     weight->stride = stride;
     weight->pad = pad;
     weight->pbias = (mydataFmt *)malloc(schannel*sizeof(mydataFmt));
-    if(weight->pbias==NULL)cout<<"neicun muyou shenqing chengong!!";
+    if(weight->pbias==NULL)
+        cout<<"neicun muyou shenqing chengong!!";
     memset(weight->pbias, 0, schannel*sizeof(mydataFmt));
     long byteLenght = weight->selfChannel*weight->lastChannel*weight->kernelSize*weight->kernelSize;
     weight->pdata = (mydataFmt *)malloc(byteLenght*sizeof(mydataFmt));
-    if(weight->pdata==NULL)cout<<"neicun muyou shenqing chengong!!";
+    if(weight->pdata==NULL)
+        cout<<"neicun muyou shenqing chengong!!";
     memset(weight->pdata, 0, byteLenght*sizeof(mydataFmt));
 
     return byteLenght;
@@ -340,7 +346,8 @@ void initpRelu(struct pRelu *prelu, int width){
 
     prelu->width = width;
     prelu->pdata = (mydataFmt *)malloc(width*sizeof(mydataFmt));
-    if(prelu->pdata==NULL)cout<<"prelu apply for memory failed!!!!";
+    if(prelu->pdata==NULL)
+        cout<<"prelu apply for memory failed!!!!";
     memset(prelu->pdata, 0, width*sizeof(mydataFmt));
 }
 void softmax(const struct pBox *pbox){
